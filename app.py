@@ -366,7 +366,6 @@ Internal parasites, such as roundworms, tapeworms, and cecal worms, infect the d
 """
 
 }
-}
 
 @app.route("/predict", methods=["GET", "POST"])
 def predict_disease():
