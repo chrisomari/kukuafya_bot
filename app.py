@@ -379,26 +379,25 @@ def predict_disease():
     if not symptoms:
         return jsonify({"error": "No symptoms provided"}), 400
 
-    # Split symptoms by both "," and "&"
-    symptom_list = []
-    for sep in [",", "&"]:
-        if sep in symptoms:
-            symptom_list = symptoms.split(sep)
-            break
+    # Check for combined symptoms first
+    if symptoms in disease_data:
+        matched_diseases = {disease_data[symptoms]}
     else:
-        symptom_list = [symptoms]
+        # Split symptoms by "," or "&"
+        symptom_list = []
+        for sep in [",", "&"]:
+            if sep in symptoms:
+                symptom_list = symptoms.split(sep)
+                break
+        else:
+            symptom_list = [symptoms]
 
-    print("Processed symptom list:", symptom_list)  # Debugging
+        print("Processed symptom list:", symptom_list)  # Debugging
 
-    matched_diseases = set()
-    for symptom in symptom_list:
-        # Check for combined symptoms (e.g., "coughing&sneezing")
-        combined_symptom = "&".join(symptom_list)
-        if combined_symptom in disease_data:
-            matched_diseases.add(disease_data[combined_symptom])
-        # Check for individual symptoms
-        if symptom in disease_data:
-            matched_diseases.add(disease_data[symptom])
+        matched_diseases = set()
+        for symptom in symptom_list:
+            if symptom in disease_data:
+                matched_diseases.add(disease_data[symptom])
 
     print("Matched diseases:", matched_diseases)  # Debugging
 
@@ -409,3 +408,5 @@ def predict_disease():
                 for disease in matched_diseases]
 
     return jsonify(response)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
