@@ -366,47 +366,39 @@ Internal parasites, such as roundworms, tapeworms, and cecal worms, infect the d
 """
 
 }
+}
+
 @app.route("/predict", methods=["GET", "POST"])
 def predict_disease():
+    # Get symptoms from the request
     if request.method == "POST":
         data = request.get_json()
-        symptoms = data.get("symptoms", [])
+        symptoms = data.get("symptoms", "")
     else:  # Handle GET requests
-        symptoms = request.args.get("symptoms", "").replace(" ", "").lower()
+        symptoms = request.args.get("symptoms", "")
+
+    # Normalize the symptoms (remove spaces and convert to lowercase)
+    symptoms = symptoms.replace(" ", "").lower()
 
     print("Received symptoms:", symptoms)  # Debugging
 
     if not symptoms:
         return jsonify({"error": "No symptoms provided"}), 400
 
-    # Check for combined symptoms first
-    if symptoms in disease_data:
-        matched_diseases = {disease_data[symptoms]}
-    else:
-        # Split symptoms by "," or "&"
-        symptom_list = []
-        for sep in [",", "&"]:
-            if sep in symptoms:
-                symptom_list = symptoms.split(sep)
-                break
-        else:
-            symptom_list = [symptoms]
+    # Check if the symptoms match any disease in disease_data
+    matched_disease = disease_data.get(symptoms)
 
-        print("Processed symptom list:", symptom_list)  # Debugging
-
-        matched_diseases = set()
-        for symptom in symptom_list:
-            if symptom in disease_data:
-                matched_diseases.add(disease_data[symptom])
-
-    print("Matched diseases:", matched_diseases)  # Debugging
-
-    if not matched_diseases:
+    if not matched_disease:
         return jsonify({"message": "No matching disease found. Consult a vet!"})
 
-    response = [{"disease": disease, "details": disease_details.get(disease, "Details not available")}
-                for disease in matched_diseases]
+    # Get the disease details
+    disease_info = disease_details.get(matched_disease, "Details not available")
 
-    return jsonify(response)
+    # Return the disease details
+    return jsonify({
+        "disease": matched_disease,
+        "details": disease_info
+    })
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
