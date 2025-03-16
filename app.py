@@ -8,7 +8,8 @@ def home():
 
 # Disease data mapping symptoms to the most relevant disease
 disease_data = {
-    "coughing&sneezing": "Newcastle Disease",
+    "coughing": "Newcastle Disease",
+    "sneezing": "Newcastle Disease",
     "dischargefromthenostrils": "Newcastle Disease",
     "scabbylessions": "Fowl Pox",
     "swollenwattles": "Fowl Cholera",
