@@ -366,13 +366,15 @@ Internal parasites, such as roundworms, tapeworms, and cecal worms, infect the d
 """
 
 }
-
-@app.route("/predict", methods=["POST"])
+@app.route("/predict", methods=["GET", "POST"])
 def predict_disease():
-    data = request.get_json()
-    symptoms = data.get("symptoms", [])
+    if request.method == "POST":
+        data = request.get_json()
+        symptoms = data.get("symptoms", [])
+    else:  # Handle GET requests
+        symptoms = request.args.get("symptoms", "").split(",")
 
-    if not symptoms:
+    if not symptoms or symptoms == [""]:
         return jsonify({"error": "No symptoms provided"}), 400
 
     matched_diseases = set()
@@ -383,12 +385,8 @@ def predict_disease():
     if not matched_diseases:
         return jsonify({"message": "No matching disease found. Consult a vet!"})
 
-    response = []
-    for disease in matched_diseases:
-        response.append({
-            "disease": disease,
-            "details": disease_details.get(disease, "Details not available")
-        })
+    response = [{"disease": disease, "details": disease_details.get(disease, "Details not available")}
+                for disease in matched_diseases]
 
     return jsonify(response)
 
