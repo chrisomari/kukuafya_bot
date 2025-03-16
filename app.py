@@ -9,23 +9,25 @@ def home():
 # Disease data mapping symptoms to the most relevant disease
 disease_data = {
     "coughing&sneezing": "Newcastle Disease",
-    "discharge from the nostrils": "Newcastle Disease",
-    "scabby lesions": "Fowl Pox",
-    "swollen wattles": "Fowl Cholera",
-    "sudden death": "Fowl Cholera",
-    "paralysis of legs": "Marek’s Disease",
-    "white diarrhea": "Gumboro",
-    "yellow diarrhea": "Fowl Typhoid",
-    "green diarrhea": "Fowl Typhoid",
-    "bloody diarrhea": "Coccidiosis",
-    "visible parasites": "External Parasites",
-    "excessive scratching": "External Parasites",
-    "worms in feces": "Internal Parasites"
+    "dischargefromthenostrils": "Newcastle Disease",
+    "scabbylessions": "Fowl Pox",
+    "swollenwattles": "Fowl Cholera",
+    "suddendeath": "Fowl Cholera",
+    "paralysisoflegs": "Marek’s Disease",
+    "whitediarrhea": "Gumboro",
+    "yellowdiarrhea": "Fowl Typhoid",
+    "greendiarrhea": "Fowl Typhoid",
+    "bloodydiarrhea": "Coccidiosis",
+    "visibleparasites": "External Parasites",
+    "excessivescratching": "External Parasites",
+    "wormsinfeces": "Internal Parasites"
 }
-# Detailed disease descriptions
+
+# Detailed disease descriptions (trun
+
 disease_details = {
     "Newcastle Disease": """✅ **What is it?** 
-A highly contagious viral disease affecting chickens, causing respiratory, digestive, and nervous system issues.
+A highly contagious viral disease affecting chickens, causing respiratory, dige>
 
 ✅ **How is it spread?**  
 - Direct contact with infected birds  
@@ -64,7 +66,7 @@ A highly contagious viral disease affecting chickens, causing respiratory, diges
 🚨 **Consult a Vet for Proper Diagnosis & Advice**  
 """,
     "Fowl Pox": """✅ **What is it?** 
-A slow-spreading viral disease causing lesions on the skin and inside the mouth/throat.
+A slow-spreading viral disease causing lesions on the skin and inside the mouth>
 
 ✅ **How is it spread?**  
 - Mosquito bites (main vector)  
@@ -78,9 +80,7 @@ A slow-spreading viral disease causing lesions on the skin and inside the mouth/
 - All ages, but more common in young and stressed birds  
 
 ✅ **Effect on Egg Production:**  
-- Moderate drop in egg production  
-
-✅ **Symptoms/Signs:**  
+- Moderate drop in egg production                                        ✅ **Symptoms/Signs:**  
 - Wart-like scabs on comb, wattles, and eyelids  
 - Yellowish-white ulcers in the mouth/throat  
 - Labored breathing if respiratory tract is involved  
@@ -103,7 +103,7 @@ A slow-spreading viral disease causing lesions on the skin and inside the mouth/
 🚨 **Consult a Vet for Further Guidance**  
 """,
     "Fowl Cholera": """✅ **What is it?** 
-A bacterial infection (caused by Pasteurella multocida) that affects chickens' respiratory and digestive systems.
+A bacterial infection (caused by Pasteurella multocida) that affects chickens' >
 
 ✅ **How is it spread?**  
 - Contaminated feed, water, or bedding  
@@ -142,7 +142,7 @@ A bacterial infection (caused by Pasteurella multocida) that affects chickens' r
 🚨 **Consult a Vet for Proper Antibiotic Treatment**  
 """,
     "Marek’s Disease": """✅ **What is it?** 
-A highly contagious viral disease affecting the nervous system, skin, and organs of chickens.
+A highly contagious viral disease affecting the nervous system, skin, and organ>
 
 ✅ **How is it spread?**  
 - Airborne transmission (from infected dust and dander)  
@@ -155,9 +155,7 @@ A highly contagious viral disease affecting the nervous system, skin, and organs
 - Young birds (3-25 weeks old)  
 
 ✅ **Effect on Egg Production:**  
-- Infected hens may never lay eggs if affected early  
-
-✅ **Symptoms/Signs:**  
+- Infected hens may never lay eggs if affected early                                                           ✅ **Symptoms/Signs:**  
 - Paralysis of legs, wings, or neck  
 - Greyish eyes (blindness)  
 - Weight loss and paleness  
@@ -178,7 +176,7 @@ A highly contagious viral disease affecting the nervous system, skin, and organs
 🚨 **Consult a Vet for Prevention Strategies**  
 """,
     "Gumboro": """✅ **What is it?** 
-A viral disease affecting young chickens’ immune systems, leading to high mortality.
+A viral disease affecting young chickens’ immune systems, leading to high morta>
 
 ✅ **How is it spread?**  
 - Contaminated feed, water, and droppings  
@@ -213,9 +211,7 @@ A viral disease affecting young chickens’ immune systems, leading to high mort
 🚨 **Consult a Vet for Vaccination Schedule**  
 """,
     "Fowl Typhoid": """✅ **What is it?** 
-A bacterial infection (Salmonella gallinarum) causing blood poisoning in chickens.
-
-✅ **How is it spread?**  
+A bacterial infection (Salmonella gallinarum) causing blood poisoning in chickens .                                      ✅ **How is it spread?**  
 - Contaminated water, feed, or droppings  
 - Passed from hen to eggs (vertical transmission)  
 
@@ -249,7 +245,7 @@ A bacterial infection (Salmonella gallinarum) causing blood poisoning in chicken
 🚨 **Consult a Vet for Diagnosis & Antibiotic Use**  
 """,
     "Coccidiosis": """✅ **What is it?** 
-A parasitic disease caused by Eimeria protozoa that affects the intestinal tract of chickens, leading to severe diarrhea and weakness.
+A parasitic disease caused by Eimeria protozoa that affects the intestinal tract of chicken>
 
 ✅ **How is it spread?**  
 - Ingestion of contaminated droppings, feed, or water  
@@ -284,11 +280,10 @@ A parasitic disease caused by Eimeria protozoa that affects the intestinal tract
 **Treatment:**  
 - Coccidiostats (e.g., Amprolium, Sulfaquinoxaline) added to drinking water  
 - Provide electrolytes and vitamins to aid recovery  
-
-🚨 **Consult a Vet for Proper Drug Administration**  
+     🚨 **Consult a Vet for Proper Drug Administration**  
 """,
     "External Parasites": """✅ **What is it?** 
-External parasites such as mites, lice, fleas, and ticks feed on chickens' blood, causing irritation, weakness, and reduced productivity.
+External parasites such as mites, lice, fleas, and ticks feed on chickens' blood, causing i>
 
 ✅ **How is it spread?**  
 - Direct contact with infected birds  
@@ -326,7 +321,7 @@ External parasites such as mites, lice, fleas, and ticks feed on chickens' blood
 🚨 **Consult a Vet for Severe Infestations & Proper Treatment Options**  
 """,
     "Internal Parasites": """✅ **What is it?** 
-Internal parasites, such as roundworms, tapeworms, and cecal worms, infect the digestive tract of chickens, leading to poor nutrient absorption and weakness.
+Internal parasites, such as roundworms, tapeworms, and cecal worms, infect the digestive tr>
 
 ✅ **How is it spread?**  
 - Ingestion of contaminated feed, water, or droppings  
@@ -363,9 +358,7 @@ Internal parasites, such as roundworms, tapeworms, and cecal worms, infect the d
 - Clean and disinfect the coop to prevent reinfection  
 
 🚨 **Consult a Vet for Proper Deworming Schedule & Medication**  
-"""
-
-}
+"""                                                    }
 
 @app.route("/predict", methods=["GET", "POST"])
 def predict_disease():
@@ -400,4 +393,4 @@ def predict_disease():
     })
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000
