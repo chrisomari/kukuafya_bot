@@ -4,11 +4,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello, Kuku Afya is live!"
+    return jsonify({"message": "Hello, Kuku Afya is live!"})
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-# Disease data mapping symptoms to a single most relevant disease
+# Disease data mapping symptoms to the most relevant disease
 disease_data = {
     "coughing&sneezing": "Newcastle Disease",
     "discharge from the nostrils": "Newcastle Disease",
@@ -22,9 +20,8 @@ disease_data = {
     "bloody diarrhea": "Coccidiosis",
     "visible parasites": "External Parasites",
     "excessive scratching": "External Parasites",
-    "worms in feces": "Internal Parasites"  # Fixed typo here
+    "worms in feces": "Internal Parasites"
 }
-
 # Detailed disease descriptions
 disease_details = {
     "Newcastle Disease": """✅ **What is it?** 
@@ -367,24 +364,33 @@ Internal parasites, such as roundworms, tapeworms, and cecal worms, infect the d
 
 🚨 **Consult a Vet for Proper Deworming Schedule & Medication**  
 """
+
 }
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    data = request.json
-    selected_symptom = data.get("symptom", "").lower()
+@app.route("/predict", methods=["POST"])
+def predict_disease():
+    data = request.get_json()
+    symptoms = data.get("symptoms", [])
 
-    # Get the disease corresponding to the symptom
-    disease_name = disease_data.get(selected_symptom, "Unknown Disease")
+    if not symptoms:
+        return jsonify({"error": "No symptoms provided"}), 400
 
-    # Fetch detailed disease information
-    response_text = disease_details.get(disease_name, "No details available for this disease.")
+    matched_diseases = set()
+    for symptom in symptoms:
+        if symptom in disease_data:
+            matched_diseases.add(disease_data[symptom])
 
-    return jsonify({
-        "disease": disease_name,
-        "details": response_text
-    })
+    if not matched_diseases:
+        return jsonify({"message": "No matching disease found. Consult a vet!"})
 
-if __name__ == '__main__':
-    app.run(debug=True)
+    response = []
+    for disease in matched_diseases:
+        response.append({
+            "disease": disease,
+            "details": disease_details.get(disease, "Details not available")
+        })
 
+    return jsonify(response)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
