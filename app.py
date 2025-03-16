@@ -392,3 +392,46 @@ def predict_disease():
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+@app.route("/predict", methods=["GET", "POST"])
+def predict_disease():
+    if request.method == "POST":
+        data = request.get_json()
+        symptoms = data.get("symptoms", [])
+    else:  # Handle GET requests
+        symptoms = request.args.get("symptoms", "").replace(" ", "").lower()
+
+    print("Received symptoms:", symptoms)  # Debugging
+
+    if not symptoms:
+        return jsonify({"error": "No symptoms provided"}), 400
+
+    # Split symptoms by both "," and "&"
+    symptom_list = []
+    for sep in [",", "&"]:
+        if sep in symptoms:
+            symptom_list = symptoms.split(sep)
+            break
+    else:
+        symptom_list = [symptoms]
+
+    print("Processed symptom list:", symptom_list)  # Debugging
+
+    matched_diseases = set()
+    for symptom in symptom_list:
+        # Check for combined symptoms (e.g., "coughing&sneezing")
+        combined_symptom = "&".join(symptom_list)
+        if combined_symptom in disease_data:
+            matched_diseases.add(disease_data[combined_symptom])
+        # Check for individual symptoms
+        if symptom in disease_data:
+            matched_diseases.add(disease_data[symptom])
+
+    print("Matched diseases:", matched_diseases)  # Debugging
+
+    if not matched_diseases:
+        return jsonify({"message": "No matching disease found. Consult a vet!"})
+
+    response = [{"disease": disease, "details": disease_details.get(disease, "Details not available")}
+                for disease in matched_diseases]
+
+    return jsonify(response)
