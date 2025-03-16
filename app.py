@@ -372,32 +372,6 @@ def predict_disease():
         data = request.get_json()
         symptoms = data.get("symptoms", [])
     else:  # Handle GET requests
-        symptoms = request.args.get("symptoms", "").split(",")
-
-    if not symptoms or symptoms == [""]:
-        return jsonify({"error": "No symptoms provided"}), 400
-
-    matched_diseases = set()
-    for symptom in symptoms:
-        if symptom in disease_data:
-            matched_diseases.add(disease_data[symptom])
-
-    if not matched_diseases:
-        return jsonify({"message": "No matching disease found. Consult a vet!"})
-
-    response = [{"disease": disease, "details": disease_details.get(disease, "Details not available")}
-                for disease in matched_diseases]
-
-    return jsonify(response)
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
-@app.route("/predict", methods=["GET", "POST"])
-def predict_disease():
-    if request.method == "POST":
-        data = request.get_json()
-        symptoms = data.get("symptoms", [])
-    else:  # Handle GET requests
         symptoms = request.args.get("symptoms", "").replace(" ", "").lower()
 
     print("Received symptoms:", symptoms)  # Debugging
