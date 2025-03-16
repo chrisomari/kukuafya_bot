@@ -2,6 +2,12 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
+@app.route("/")
+def home():
+    return "Hello, Kuku Afya is live!"
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
 # Disease data mapping symptoms to a single most relevant disease
 disease_data = {
     "coughing&sneezing": "Newcastle Disease",
